@@ -212,7 +212,7 @@
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2015-11-15T17:28:49+08:00" content="2015-11-15">
+            <time itemprop="dateCreated" datetime="2015-11-15T17:35:50+08:00" content="2015-11-15">
               2015-11-15
             </time>
           </span>
@@ -249,7 +249,7 @@
               <ol>
 <li><p>C语言中数组和指针是完全不同的事物，但是因为有语法糖的存在，导致了数组和指针的混乱</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> <span class="built_in">array</span>[] = &#123; <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span> &#125;;</span><br><span class="line">    <span class="keyword">int</span> n = <span class="keyword">sizeof</span>(<span class="built_in">array</span>) / <span class="keyword">sizeof</span>(<span class="keyword">int</span>);</span><br><span class="line">    <span class="keyword">int</span> *p = <span class="built_in">array</span>;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; n; i++)</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"  %d[p]...%d\n"</span>, i, i[p]);<span class="comment">//这里也可以写成p[i]，效果一样</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol>
+</li>
 <li><p>C语言中用宏定义变量或者函数的好处是在编译期间进行常量替换，从而提高运行效率；<br>C的结构体不支持继承，可以用宏实现结构体中的共性部分（java有继承就不需要宏了）。</p>
 </li>
 <li><p>表达式是指：</p>
@@ -266,17 +266,14 @@
 <li>左值：</li>
 </ol>
 <ul>
-<li>作为变量，它有作为“自身的值”使用和作为“自身的内存区域”使用两种情况，比如<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> hoge=<span class="number">5</span>;</span><br><span class="line">hoge=<span class="number">10</span>;<span class="comment">//没问题</span></span><br><span class="line"><span class="number">5</span>=<span class="number">10</span>;<span class="comment">//非法</span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
+<li><p>作为变量，它有作为“自身的值”使用和作为“自身的内存区域”使用两种情况，比如</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> hoge=<span class="number">5</span>;</span><br><span class="line">hoge=<span class="number">10</span>;<span class="comment">//没问题</span></span><br><span class="line"><span class="number">5</span>=<span class="number">10</span>;<span class="comment">//非法</span></span><br></pre></td></tr></table></figure>
 <p>这种情况下，等号左边是自身的内存区域，右边是自身的值，像这样，表达式代表某处的内存区域的时候，我们称当前的表示式为左值（lvalue）；相对的是，表达式只是代表值的时候，我们称当前的表达式为右值。</p>
-<ul>
+</li>
 <li>在C中，++hoge这样写法也是合法的，此时hoge是指某处的内存区域，虽然不符合左值的字面含义。</li>
 </ul>
 <ol>
 <li>间接引用：单目运算符*被称为间接引用运算符，运算符*将指针作为操作数，返回指针所指向的对象或者函数，只要不是返回函数，运算符*的结果都是<strong>左值</strong>，从运算符*的操作数的类型中仅仅去掉一个指针后的类型，就是运算符*返回的表达式的类型-&gt;<img src="index_files/dec8362b-1dfb-4dfd-8aaf-5051cab4f322.jpg" alt=""><br><strong>书中又把间接引用称为解引用，说得实在是拗口，个人理解为解码更形象，将地址翻译为具体的值，类似于将一串没有意义的字符码按照规则解码为中文，<br>比如<code>&amp;a</code>来是一个地址，那么应该如何解释这个地址呢，比如可以按照<code>int*</code>解释，也可以按照<code>float*</code>来解释，<code>int*</code>会以<code>&amp;a</code>为起始地址，向前获取比如1个字节的长度，而<code>float*</code>会以<code>&amp;a</code>为起始地址，向前获取比如2个字节的长度，<br>类型不同，解码的方式会有差异。</strong><br>这样的话也能够解释比如代码：<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test</span><span class="params">(<span class="keyword">int</span>* a)</span></span>&#123;<span class="comment">//接收地址值</span></span><br><span class="line">    a=<span class="number">1</span>;<span class="comment">//非法</span></span><br><span class="line">    *a=<span class="number">1</span>;<span class="comment">//可以</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
 </li>
 </ol>
 <p><code>int* a</code>和<code>*a</code>究竟什么时候可以<code>a=1</code>，什么时候不行，按照上面的理解，<code>int* a</code>定义的是一个变量<code>a</code>，<code>a</code>的类型是int类型的指针（所以我喜欢<code>int* a</code>的写法，<code>int *a</code>太不直观了），这样是不能直接<code>a=1</code>的，他接收的是地址值，<br>而传进来的正好是<code>&amp;a</code>即a的地址值，因此可以用<code>int* a</code>接收，<code>*a</code>可以根据这个地址找到内存中的<code>a</code>对应的值，返回的是左值，从而可以通过<code>*a=1</code>改变main中的a的值，<br>所以定义的<code>int* a</code>和<code>*a=1</code>是不一样的含义。<br>为了理解又测试了一些代码：<br> <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"> <span class="function"><span class="keyword">void</span> <span class="title">func</span><span class="params">(<span class="keyword">int</span>* a, <span class="keyword">double</span>* b)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">      *a = <span class="number">5</span>;<span class="comment">//*a通过间接引用获取到了main中的a值</span></span><br><span class="line">      *b = <span class="number">3.5</span>;</span><br><span class="line">      <span class="keyword">int</span>* c=a;<span class="comment">//如果需要定义新的指针来接收，就要这样，因为a是int类型的指针，而不是int c=*a，注意一定要类型匹配</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">      <span class="keyword">int</span> a;</span><br><span class="line">      <span class="keyword">double</span> b;</span><br><span class="line">      func(&amp;a, &amp;b) ;</span><br><span class="line">      <span class="built_in">printf</span>( <span class="string">" a. . %d b. . %f\n"</span> , a, b) ;</span><br><span class="line">      <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>

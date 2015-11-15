@@ -212,7 +212,7 @@
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2015-11-15T17:35:50+08:00" content="2015-11-15">
+            <time itemprop="dateCreated" datetime="2015-11-15T18:45:51+08:00" content="2015-11-15">
               2015-11-15
             </time>
           </span>
@@ -253,8 +253,6 @@
 <li><p>C语言中用宏定义变量或者函数的好处是在编译期间进行常量替换，从而提高运行效率；<br>C的结构体不支持继承，可以用宏实现结构体中的共性部分（java有继承就不需要宏了）。</p>
 </li>
 <li><p>表达式是指：</p>
-</li>
-</ol>
 <ul>
 <li>标识符（变量名、 函数名）。</li>
 <li>常量（包括整数常量和浮点数常量）。</li>
@@ -262,38 +260,56 @@
 <li>使用()括起来的表达式。</li>
 <li>对表达式使用运算符，或通过运算符将表达式和表达式相互连接，这些表示方法也称为表达式，比如<code>5</code>、<code>hoge</code>都是表达式，则<code>5 + hoge</code>也是表达式。</li>
 </ul>
-<ol>
-<li>左值：</li>
-</ol>
-<ul>
-<li><p>作为变量，它有作为“自身的值”使用和作为“自身的内存区域”使用两种情况，比如</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> hoge=<span class="number">5</span>;</span><br><span class="line">hoge=<span class="number">10</span>;<span class="comment">//没问题</span></span><br><span class="line"><span class="number">5</span>=<span class="number">10</span>;<span class="comment">//非法</span></span><br></pre></td></tr></table></figure>
-<p>这种情况下，等号左边是自身的内存区域，右边是自身的值，像这样，表达式代表某处的内存区域的时候，我们称当前的表示式为左值（lvalue）；相对的是，表达式只是代表值的时候，我们称当前的表达式为右值。</p>
 </li>
+<li><p>左值：</p>
+<ul>
+<li>作为变量，它有作为“自身的值”使用和作为“自身的内存区域”使用两种情况，比如<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> hoge=<span class="number">5</span>;</span><br><span class="line">hoge=<span class="number">10</span>;<span class="comment">//没问题</span></span><br><span class="line"><span class="number">5</span>=<span class="number">10</span>;<span class="comment">//非法</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>这种情况下，等号左边是自身的内存区域，右边是自身的值，像这样，表达式代表某处的内存区域的时候，我们称当前的表示式为左值（lvalue）；相对的是，表达式只是代表值的时候，我们称当前的表达式为右值。</p>
+<ul>
 <li>在C中，++hoge这样写法也是合法的，此时hoge是指某处的内存区域，虽然不符合左值的字面含义。</li>
 </ul>
-<ol>
-<li>间接引用：单目运算符*被称为间接引用运算符，运算符*将指针作为操作数，返回指针所指向的对象或者函数，只要不是返回函数，运算符*的结果都是<strong>左值</strong>，从运算符*的操作数的类型中仅仅去掉一个指针后的类型，就是运算符*返回的表达式的类型-&gt;<img src="index_files/dec8362b-1dfb-4dfd-8aaf-5051cab4f322.jpg" alt=""><br><strong>书中又把间接引用称为解引用，说得实在是拗口，个人理解为解码更形象，将地址翻译为具体的值，类似于将一串没有意义的字符码按照规则解码为中文，<br>比如<code>&amp;a</code>来是一个地址，那么应该如何解释这个地址呢，比如可以按照<code>int*</code>解释，也可以按照<code>float*</code>来解释，<code>int*</code>会以<code>&amp;a</code>为起始地址，向前获取比如1个字节的长度，而<code>float*</code>会以<code>&amp;a</code>为起始地址，向前获取比如2个字节的长度，<br>类型不同，解码的方式会有差异。</strong><br>这样的话也能够解释比如代码：<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test</span><span class="params">(<span class="keyword">int</span>* a)</span></span>&#123;<span class="comment">//接收地址值</span></span><br><span class="line">    a=<span class="number">1</span>;<span class="comment">//非法</span></span><br><span class="line">    *a=<span class="number">1</span>;<span class="comment">//可以</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
-</ol>
-<p><code>int* a</code>和<code>*a</code>究竟什么时候可以<code>a=1</code>，什么时候不行，按照上面的理解，<code>int* a</code>定义的是一个变量<code>a</code>，<code>a</code>的类型是int类型的指针（所以我喜欢<code>int* a</code>的写法，<code>int *a</code>太不直观了），这样是不能直接<code>a=1</code>的，他接收的是地址值，<br>而传进来的正好是<code>&amp;a</code>即a的地址值，因此可以用<code>int* a</code>接收，<code>*a</code>可以根据这个地址找到内存中的<code>a</code>对应的值，返回的是左值，从而可以通过<code>*a=1</code>改变main中的a的值，<br>所以定义的<code>int* a</code>和<code>*a=1</code>是不一样的含义。<br>为了理解又测试了一些代码：<br> <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"> <span class="function"><span class="keyword">void</span> <span class="title">func</span><span class="params">(<span class="keyword">int</span>* a, <span class="keyword">double</span>* b)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">      *a = <span class="number">5</span>;<span class="comment">//*a通过间接引用获取到了main中的a值</span></span><br><span class="line">      *b = <span class="number">3.5</span>;</span><br><span class="line">      <span class="keyword">int</span>* c=a;<span class="comment">//如果需要定义新的指针来接收，就要这样，因为a是int类型的指针，而不是int c=*a，注意一定要类型匹配</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">      <span class="keyword">int</span> a;</span><br><span class="line">      <span class="keyword">double</span> b;</span><br><span class="line">      func(&amp;a, &amp;b) ;</span><br><span class="line">      <span class="built_in">printf</span>( <span class="string">" a. . %d b. . %f\n"</span> , a, b) ;</span><br><span class="line">      <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p> <strong>之所以有多重*的存在，是因为比如二维数组或者树、链表这种结构（用java写树和链表相对就简单些，因为不用考虑*和需要*几次的问题，估计编译器做了处理），比如二维数组代码：</strong><br> <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="comment">//下面的结果一样，都是a[0]的地址值</span></span><br><span class="line">    <span class="keyword">int</span> a[<span class="number">5</span>]=&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>&#125;;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"a=%x\n"</span>,a);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"&amp;a=%x\n"</span>,&amp;a);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"*(&amp;a)=%x\n"</span>,(*(&amp;a)));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"&amp;a[0]=%x\n"</span>,&amp;a[<span class="number">0</span>]);</span><br><span class="line">    <span class="comment">//下面的结果是a[0]对应的值</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"*(int*)&amp;a=%x\n"</span>,(*((<span class="keyword">int</span> *)(&amp;a))));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"*(*(&amp;a))=%x\n"</span>,(*(*(&amp;a))));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"*(&amp;a[0])=%x\n"</span>,*(&amp;a[<span class="number">0</span>]));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p> <strong>指针也可以指向函数（作用是可以实现比如javascript中函数的回调，而java中屏蔽掉了指针，只能通过接口或者继承来实现回调函数，最典型的就是android中用匿名内部类实现跟javascript中一样的回调效果，但是写起来不够优雅）-&gt;</strong><br> <img src="index_files/cf463b69-a170-46af-8d97-4e4e0fd6165b.png" alt=""><br> <strong>*fp两边的括号是必须的，不然<code>int *fp(int,int*)</code>会被解读成<code>(int *) f(int*)</code>，即以一个int、int*作为参数，并返回一个int*。</strong></p>
-<ol>
+<li><p>间接引用：单目运算符*被称为间接引用运算符，运算符*将指针作为操作数，返回指针所指向的对象或者函数，只要不是返回函数，运算符*的结果都是<strong>左值</strong>，从运算符*的操作数的类型中仅仅去掉一个指针后的类型，就是运算符*返回的表达式的类型-&gt;<img src="index_files/dec8362b-1dfb-4dfd-8aaf-5051cab4f322.jpg" alt=""><br><strong>书中又把间接引用称为解引用，说得实在是拗口，个人理解为解码更形象，将地址翻译为具体的值，类似于将一串没有意义的字符码按照规则解码为中文，<br>比如<code>&amp;a</code>来是一个地址，那么应该如何解释这个地址呢，比如可以按照<code>int*</code>解释，也可以按照<code>float*</code>来解释，<code>int*</code>会以<code>&amp;a</code>为起始地址，向前获取比如1个字节的长度，而<code>float*</code>会以<code>&amp;a</code>为起始地址，向前获取比如2个字节的长度，<br>类型不同，解码的方式会有差异。</strong><br>这样的话也能够解释比如代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test</span><span class="params">(<span class="keyword">int</span>* a)</span></span>&#123;<span class="comment">//接收地址值</span></span><br><span class="line">   a=<span class="number">1</span>;<span class="comment">//非法</span></span><br><span class="line">   *a=<span class="number">1</span>;<span class="comment">//可以</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>int* a</code>和<code>*a</code>究竟什么时候可以<code>a=1</code>，什么时候不行，按照上面的理解，<code>int* a</code>定义的是一个变量<code>a</code>，<code>a</code>的类型是int类型的指针（所以我喜欢<code>int* a</code>的写法，<code>int *a</code>太不直观了），这样是不能直接<code>a=1</code>的，他接收的是地址值，<br>而传进来的正好是<code>&amp;a</code>即a的地址值，因此可以用<code>int* a</code>接收，<code>*a</code>可以根据这个地址找到内存中的<code>a</code>对应的值，返回的是左值，从而可以通过<code>*a=1</code>改变main中的a的值，<br>所以定义的<code>int* a</code>和<code>*a=1</code>是不一样的含义。<br>为了理解又测试了一些代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func</span><span class="params">(<span class="keyword">int</span>* a, <span class="keyword">double</span>* b)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">     *a = <span class="number">5</span>;<span class="comment">//*a通过间接引用获取到了main中的a值</span></span><br><span class="line">     *b = <span class="number">3.5</span>;</span><br><span class="line">     <span class="keyword">int</span>* c=a;<span class="comment">//如果需要定义新的指针来接收，就要这样，因为a是int类型的指针，而不是int c=*a，注意一定要类型匹配</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">     <span class="keyword">int</span> a;</span><br><span class="line">     <span class="keyword">double</span> b;</span><br><span class="line">     func(&amp;a, &amp;b) ;</span><br><span class="line">     <span class="built_in">printf</span>( <span class="string">" a. . %d b. . %f\n"</span> , a, b) ;</span><br><span class="line">     <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>之所以有多重*的存在，是因为比如二维数组或者树、链表这种结构（用java写树和链表相对就简单些，因为不用考虑*和需要*几次的问题，估计编译器做了处理），比如二维数组代码：</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">   <span class="comment">//下面的结果一样，都是a[0]的地址值</span></span><br><span class="line">   <span class="keyword">int</span> a[<span class="number">5</span>]=&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>&#125;;</span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">"a=%x\n"</span>,a);</span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">"&amp;a=%x\n"</span>,&amp;a);</span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">"*(&amp;a)=%x\n"</span>,(*(&amp;a)));</span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">"&amp;a[0]=%x\n"</span>,&amp;a[<span class="number">0</span>]);</span><br><span class="line">   <span class="comment">//下面的结果是a[0]对应的值</span></span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">"*(int*)&amp;a=%x\n"</span>,(*((<span class="keyword">int</span> *)(&amp;a))));</span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">"*(*(&amp;a))=%x\n"</span>,(*(*(&amp;a))));</span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">"*(&amp;a[0])=%x\n"</span>,*(&amp;a[<span class="number">0</span>]));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>指针也可以指向函数（作用是可以实现比如javascript中函数的回调，而java中屏蔽掉了指针，只能通过接口或者继承来实现回调函数，最典型的就是android中用匿名内部类实现跟javascript中一样的回调效果，但是写起来不够优雅）-&gt;</strong><img src="index_files/cf463b69-a170-46af-8d97-4e4e0fd6165b.png" alt=""><br><strong>*fp两边的括号是必须的，不然<code>int *fp(int,int*)</code>会被解读成<code>(int *) f(int*)</code>，即以一个int、int*作为参数，并返回一个int*。</strong></p>
+</li>
 <li><p>地址运算符：单目运算符&amp;被称为地址运算符，<strong>&amp;将一个左值作为操作数，返回指向该左值的指针，对左值的类型加上一个指针， 就是&amp;运算符的返回类型</strong>-&gt;<img src="index_files/bc044a93-199a-492b-89f0-380ac6b55618.jpg" alt=""><br>另外，<strong>地址运算符不能将非左值的表达式作为操作数</strong>。<br><strong>这个同样说得比较拗口，个人理解是比如<code>int a</code>，则<code>&amp;a</code>会返回a的地址，同时会记下a的类型，这样就能够这样接收<code>int* p=&amp;a</code>，但是这样接收<code>float* p=&amp;a</code>会报错，因为类型不匹配。</strong></p>
 </li>
 <li><p>&amp;用于获取某个变量的地址值，比如<code>int hoge=5</code>，则<code>&amp;hoge</code>的值可能为<code>0xbfbfd9e4</code>；如果有<code>int *hoge_p;hoge_p = &amp;hoge;</code>，则有-&gt;<img src="index_files/c248f06d-4b05-4b5d-8a03-d03c86fd7453.jpg" alt="">，像这样，指针变量<code>hoge_p</code>保存了另外一个变量<code>hoge</code>的地址，我们认为“<code>hoge_p</code>指向<code>hoge</code>”，此外， 对<code>hoge</code>变量实施&amp;运算得到“<code>hoge</code>的地址”，有时候也称“<code>hoge</code>的地址”的值为“指向<code>hoge</code>的指针”（此时的“指针”指的是“指针类型的值”）；在指针前面加上*，可以表示指针指向的变量，因为<code>hoge_p</code>指向<code>hoge</code>，所以<code>*hoge_p</code>等同于<code>hoge</code>，一旦要求输出<code>*hoge_p</code>，就会输出<code>hoge</code>中保存的值5。</p>
 </li>
-<li><p><code>int *hoge_p;</code>似乎这里声明了一个名为<code>*hoge_p</code>的变量，而实际上，这里声明的变量是<code>hoge_p</code>，<code>hoge_p</code>的类型是“指向<code>int</code>的指针”；因为这种声明方式不太好理解，所以有人提出将*靠近类型这一侧进行书写，使其符合“<strong>类型 变量名</strong>”的形式-&gt;<code>int* hoge_p;</code>，但是在同时声明多个变量的情况下，比如<code>int* hoge_p, piyo_p;</code>容易误解定义了2个指针类型的变量，其实前者是指针，后者是int；</p>
+<li><p><code>int *hoge_p;</code>似乎这里声明了一个名为<code>*hoge_p</code>的变量，而实际上，这里声明的变量是<code>hoge_p</code>，<code>hoge_p</code>的类型是“指向<code>int</code>的指针”；因为这种声明方式不太好理解，所以有人提出将*靠近类型这一侧进行书写，使其符合“<strong>类型 变量名</strong>”的形式-&gt;<code>int* hoge_p;</code>，但是在同时声明多个变量的情况下，比如<code>int* hoge_p, piyo_p;</code>容易误解定义了2个指针类型的变量，其实前者是指针，后者是int。</p>
 </li>
 <li><p>C有一个可以指向任何类型的指针类型<code>void*</code>，也可以像下面将<code>hoge_p</code>强制转换成<code>int</code>：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> hoge = <span class="number">5</span>;</span><br><span class="line"><span class="keyword">void</span> hoge_p;</span><br><span class="line">hoge_p = &amp;hoge;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d\n"</span>,*(<span class="keyword">int</span>*)hoge_p);</span><br><span class="line">```。</span><br><span class="line">这个让我联想到java里面的父类和子类的强转，java中只允许子类转换成父类，父类不能转换成子类，这样理解，父类就好似一个腊肠，子类相当于在肉的尾端继续加肉，腊肠会更长，子类转换成父类很简单，只需要将腊肠切割成父类这么长就行了，但是父类的长度就这么长，再怎么切割都不能像子类这么长的、</span><br><span class="line"></span><br><span class="line"> <span class="number">1.</span> 对指针加N，指针前进当前指针指向的数据类型的长度 × N，比如给一个`<span class="keyword">int</span>*`的变量加<span class="number">1</span>，地址会加<span class="number">4</span>，因为<span class="keyword">int</span>类型的长度是<span class="number">4</span>。</span><br><span class="line"> </span><br><span class="line"> <span class="number">1.</span> c语言中字符串是使用“空字符”`\<span class="number">0</span>`来结束的，空字符的定义为“所有的位为<span class="number">0</span>的字节称为空字符”，也就是说，空字符是值为<span class="number">0</span>的字符，数据类型是<span class="keyword">int</span>\*；</span><br><span class="line"> 当常量<span class="number">0</span>处于应该作为指针使用的上下文中时，它就作为空指针使用，比如`<span class="keyword">int</span> *p = <span class="number">0</span>;`不警告，而`<span class="keyword">int</span> *p = <span class="number">3</span>;`会提出警告，但是这个原则并不是在所有情况下生效，不生效的情况：</span><br><span class="line"> &gt; 没有原型声明的函数的参数</span><br><span class="line"> &gt; 可变长参数函数中的可变部分的参数</span><br><span class="line"></span><br><span class="line"> 在这两个环境中需要通过使用宏定义<span class="literal">NULL</span>来将<span class="number">0</span>强制转型成<span class="keyword">void</span>\*，可以显式地告之编译器当前的<span class="number">0</span>为指针，以增强移植性-&gt;`<span class="preprocessor">#<span class="keyword">define</span> NULL ((void*)<span class="number">0</span>)`。</span></span><br><span class="line"> </span><br><span class="line"> <span class="number">1.</span> 之所以从<span class="number">0</span>开始，是因为比如上班的公司位于名古屋的一座 <span class="number">5</span> 层的写字楼里，假设某人每爬一层楼花费 <span class="number">10</span> 秒钟， 那么此人如果从地面爬上 <span class="number">5</span> 楼，一共需要多少秒呢？<span class="number">50</span> 秒？恭喜你，答错了 ，答案是 <span class="number">40</span> 秒，相信大家在中学里都学过“等差数列”，等差数列第 _n_ 项等于“初项 ＋ 公差 × (_n_-<span class="number">1</span>)”，还有比如“<span class="number">1900</span> 年代”<span class="number">1</span>不是 <span class="number">19</span> 世纪，它的一大半属于 <span class="number">20</span> 世纪，更让人纠结的是，<span class="number">2000</span> 年不属于 <span class="number">21</span> 世纪，而属于 <span class="number">20</span> 世纪，对于这些现象， 如果</span><br><span class="line"> &gt; 写字楼和地面相同高度的那层，计数为 <span class="number">0</span> 层。</span><br><span class="line"> 数列最初的项，计数为 <span class="number">0</span> 项。</span><br><span class="line"> 最初的世纪计数为 <span class="number">0</span> 世纪，公历最初的年计数为 <span class="number">0</span> 年。</span><br><span class="line"></span><br><span class="line"> 就能够回避问题，还有如果需要要用一维数组去代替二维数组使用，可以这样</span><br><span class="line">```c</span><br><span class="line"><span class="comment">/* width 为行的宽度， 引用第 line 行， 第 col 列的元素*/</span></span><br><span class="line"><span class="built_in">array</span>[ line * width + col]</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> hoge = <span class="number">5</span>;</span><br><span class="line"><span class="keyword">void</span> hoge_p;</span><br><span class="line">hoge_p = &amp;hoge;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d\n"</span>,*(<span class="keyword">int</span>*)hoge_p);</span><br></pre></td></tr></table></figure>
+<p>这个让我联想到java里面的父类和子类的强转，java中只允许子类转换成父类，父类不能转换成子类，这样理解，父类就好似一个腊肠，子类相当于在肉的尾端继续加肉，腊肠会更长，子类转换成父类很简单，只需要将腊肠切割成父类这么长就行了，但是父类的长度就这么长，再怎么切割都不能像子类这么长的。</p>
 </li>
-</ol>
-<p>假设最初的行为第 1 行， 最初的列为第 1 列， 并且数组的下标是从 1 开始， 就需要把上面的代码修改成下面这样：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">array</span>[ ( line-<span class="number">1</span>) * width + col]</span><br></pre></td></tr></table></figure></p>
-<ol>
+<li><p>对指针加N，指针前进当前指针指向的数据类型的长度 × N，比如给一个<code>int*</code>的变量加1，地址会加4，因为int类型的长度是4。</p>
+</li>
+<li><p>c语言中字符串是使用“空字符”<code>\0</code>来结束的，空字符的定义为“所有的位为0的字节称为空字符”，也就是说，空字符是值为0的字符，数据类型是int*；<br>当常量0处于应该作为指针使用的上下文中时，它就作为空指针使用，比如<code>int *p = 0;</code>不警告，而<code>int *p = 3;</code>会提出警告，但是这个原则并不是在所有情况下生效，不生效的情况：</p>
+<ul>
+<li>没有原型声明的函数的参数</li>
+<li>可变长参数函数中的可变部分的参数</li>
+</ul>
+<p>在这两个环境中需要通过使用宏定义NULL来将0强制转型成void*，可以显式地告之编译器当前的0为指针，以增强移植性-&gt;<code>#define NULL ((void*)0)</code>。</p>
+</li>
+<li><p>之所以从0开始，是因为比如上班的公司位于名古屋的一座 5 层的写字楼里，假设某人每爬一层楼花费 10 秒钟， 那么此人如果从地面爬上 5 楼，一共需要多少秒呢？50 秒？恭喜你，答错了 ，答案是 40 秒，相信大家在中学里都学过“等差数列”，等差数列第 <em>n</em> 项等于“初项 ＋ 公差 × (<em>n</em>-1)”，还有比如“1900 年代”1不是 19 世纪，它的一大半属于 20 世纪，更让人纠结的是，2000 年不属于 21 世纪，而属于 20 世纪，对于这些现象， 如果</p>
+<ul>
+<li>写字楼和地面相同高度的那层，计数为 0 层。</li>
+<li>数列最初的项，计数为 0 项。</li>
+<li>最初的世纪计数为 0 世纪，公历最初的年计数为 0 年。</li>
+</ul>
+<p>就能够回避问题，还有如果需要要用一维数组去代替二维数组使用，可以这样</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* width 为行的宽度， 引用第 line 行， 第 col 列的元素*/</span></span><br><span class="line"><span class="built_in">array</span>[ line * width + col]</span><br></pre></td></tr></table></figure>
+<p>假设最初的行为第 1 行， 最初的列为第 1 列， 并且数组的下标是从 1 开始， 就需要把上面的代码修改成下面这样：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">array</span>[ ( line-<span class="number">1</span>) * width + col]</span><br></pre></td></tr></table></figure>
+</li>
 <li><p>数组：</p>
-<blockquote>
 <ul>
 <li><strong>数组可以解读成“指向它的初始元素的指针”，尽管有几个小例外，但是这和在后面加不加[]没有关系</strong>，即对于<code>int* p</code>，<code>p=&amp;array[0];</code>等价于<code>p=array;</code>，<code>*(p + i)</code>等价于<code>p[i]</code>，<code>p[i]</code>只不过是<code>*(p + i)</code>的简便写法，所以可以将*(p + i)写成*(i + p)，也可以写成 i[p]，array[5]可以写成5[array]。</li>
 <li>上面提到的几个小例外：</li>
@@ -303,9 +319,7 @@
 </ul>
 </li>
 </ul>
-</blockquote>
 <p>提出警告原因是“指向int的指针”和“指向int的数组（元素个数3）的指针”是完全不同的数据类型，它们的不同之处是它们在做指针运算时结果不同，前者+1的时候移动4个字节，后者+1的时候，因为当前元素个数为3，因此会移动3*4个字节。</p>
-<blockquote>
 <ul>
 <li><ul>
 <li>对于<code>void func(int a[])</code>，因为在C语言中是不能够将数组作为函数的参数进行传递的，所以这里会被解读为<code>void func(int *a)</code>，就算定义了数组的元素个数也会被无视。</li>
@@ -317,42 +331,32 @@
 <li>如果试图将数组作为函数参数进行传递，那就传递指向初始元素的指针，此时数组是引用传递，如果迫不得已需要复制数组实现值传递，可以将数组的所有元素整理成结构体的成员，但是如果这个数组很大，会存在效率的问题，这种情况是比如对下棋的决策树进行决策，不停地递归，这需要记录递归的每一步而不是引用传递覆盖原数据来比较出最优策略。</li>
 <li>因为引用数组元素的时候，虽然可以写成a[i]，但是它只不过是*(a + i)的语法糖，因此c语言无法对数组下标越界进行检查，如果无论如何都需要进行数组长度检查，可以考虑将指针封装成结构体那样，运行时让指针自身持有可取值范围的信息，可是这么做对性能的影响很大，同时也丧失了非调试模式下编译后的库和指针的兼容性。</li>
 </ul>
-</blockquote>
 </li>
 <li><p>在如今的运行环境中，应用程序面对的是虚拟地址空间，多线程运行int i=1，很可能每个线程打印出来i的地址都是相同的，虚拟内存-&gt;<img src="index_files/ce247464-d55e-460e-93c7-ab6c29852667.jpg" alt=""></p>
 </li>
 <li><p>c语言的scanf()不是以行单位对输入内容进行解释，而是对连续字符流进行解释（换行字符也视为一个字符），scanf()连续地从流读入字符，并且对和格式说明符（比如%d）相匹配的部分进行变换处理，当格式说明符为%d的时候，输入<code>123↲</code>，从流中取得123部分的内容，并对它进行处理，换行符依旧会残留在流中，这样之后如果调用getchar()会接收到这个留下的换行符，而且当scanf()变换失败的时候（比如，指定了%d，但是输入的却是英文字符），scanf()会将失败的部分遗留在流中，在读入过程中有几个对象被成功地变换，scanf()的返回值就为几，这就导致一种情况，比如：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">while</span>(<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;hoge) ! = <span class="number">1</span>)&#123;</span><br><span class="line">     <span class="built_in">printf</span>(<span class="string">"输入错误，请再次输入！"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
 <p>一旦用户错误输入过一次，这段程序就会进入无限循环，原因就是错误输入的那部分字符串，将会被下一个scanf()读到，使用fgets和sscanf组合可以避免这种情况：</p>
- <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fgets(buf, <span class="keyword">sizeof</span>(buf), <span class="built_in">stdin</span>);</span><br><span class="line"><span class="built_in">sscanf</span>(buf, <span class="string">"%d"</span>, &amp;xxx);</span><br></pre></td></tr></table></figure>
-<ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fgets(buf, <span class="keyword">sizeof</span>(buf), <span class="built_in">stdin</span>);</span><br><span class="line"><span class="built_in">sscanf</span>(buf, <span class="string">"%d"</span>, &amp;xxx);</span><br></pre></td></tr></table></figure>
+</li>
 <li><p>C 中有三种内存区域的寿命：</p>
-<blockquote>
 <ul>
 <li>静态变量static修饰：寿命从程序运行时开始，到程序关闭时结束；静态变量总是在虚拟地址空间上占有固定的区域。</li>
 <li>自动变量：寿命到声明该变量的语句块被执行结束为止；自动变量重复使用内存区域，因此自动变量的地址是不一定的，有可能使用相同的地址。</li>
 <li>通过malloc()分配的领域：寿命到调用free()为止。</li>
 </ul>
-</blockquote>
 </li>
 <li><p>内存区域：</p>
-<blockquote>
 <ul>
 <li>大多数操作系统都是将函数自身和字符串常量汇总配置在一个只读内存区域，因为函数本身不可能需要改写，以前有过函数本身也能变，但是太难看懂了，因此现代操作系统都禁用这种技术，如果执行程序是只读的，在同一份程序被同时启动多次的时候，通过在物理地址上共享程序能够节约物理内存，而且由于硬盘上已经存放了可执行程序，就算内存不足，也不需要将程序交换到虚拟内存，相反可以将程序直接从内存中销毁，Windows、UNIX等操作系统就是这样实现的，在一部分UNIX中，如果在程序运行的时候将该程序改写（再编译/连接等），当前运行的程序就会崩溃，在如今的处理环境中，经常会对程序加锁。</li>
 </ul>
-</blockquote>
 </li>
 <li><p>函数的指针：</p>
-<blockquote>
 <ul>
 <li>如下代码：<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> (*func_p)(<span class="keyword">double</span>); <span class="comment">//←声明</span></span><br><span class="line">func_p = func; <span class="comment">//←将func 赋给func_p</span></span><br><span class="line">func_p(<span class="number">0.5</span>); <span class="comment">//←此时，func_p 等同于func</span></span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-</blockquote>
 <p>将“指向函数的指针”保存在变量中的技术经常被运用在如下场合：</p>
-<blockquote>
 <ul>
 <li><ul>
 <li>GUI 中的按钮控件记忆“当自身被按下的时候需要调用的函数”。</li>
@@ -361,13 +365,10 @@
 <li><ul>
 <li>根据“指向函数的指针的数组”对处理进行分配。</li>
 </ul>
-<p>后者的“指向函数的指针的数组”，像下面这样使用：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> (*func_table[])(<span class="keyword">double</span>) = &#123;</span><br><span class="line">    func0,</span><br><span class="line">    func1,</span><br><span class="line">    func2,</span><br><span class="line">    func3,</span><br><span class="line">&#125;;</span><br><span class="line">func_table[i](<span class="number">0.5</span>); <span class="comment">//←调用func_table[i]的函数，参数为0.5</span></span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-</blockquote>
-</li>
-</ol>
+<p>后者的“指向函数的指针的数组”，像下面这样使用：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> (*func_table[])(<span class="keyword">double</span>) = &#123;</span><br><span class="line">    func0,</span><br><span class="line">    func1,</span><br><span class="line">    func2,</span><br><span class="line">    func3,</span><br><span class="line">&#125;;</span><br><span class="line">func_table[i](<span class="number">0.5</span>); <span class="comment">//←调用func_table[i]的函数，参数为0.5</span></span><br></pre></td></tr></table></figure>
 <p>使用上面的写法，不用写很长的switch case，只需通过i的值就可以对处理进行分配。</p>
 <blockquote>
 <ul>
@@ -375,17 +376,15 @@
 </li>
 </ul>
 </blockquote>
-<p> 虽然对“指向函数的指针”使用解引用*，会让它暂时成为函数，但是因为在表达式中，所以它会被瞬间地变回成“指向函数的指针”，因此*有多少个都没有影响。</p>
-<ol>
+<p>虽然对“指向函数的指针”使用解引用*，会让它暂时成为函数，但是因为在表达式中，所以它会被瞬间地变回成“指向函数的指针”，因此*有多少个都没有影响。</p>
+</li>
 <li><p>函数调用：</p>
-<blockquote>
 <ul>
-<li>概念图-&gt;<img src="index_files/31295579-8b52-44ea-b747-22e80b942369.jpg" alt="">。</li>
+<li>概念图-&gt;<img src="index_files/31295579-8b52-44ea-b747-22e80b942369.jpg" alt=""></li>
 <li>C语言中，通常将自动变量保存在栈中，通过将自动变量分配在栈中，内存区域可以被重复利用，这样可以节约内存，而且将自动变量分配在栈中，对于递归调用也具有重要的意义。</li>
 <li>对于如下代码：<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> c, d;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a, b;</span><br><span class="line">    func(<span class="number">1</span>, <span class="number">2</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-</blockquote>
 <p>内存分布图-&gt;<img src="index_files/8af84749-b17b-42c8-a835-b34e71085a36.jpg" alt=""></p>
 <ul>
 <li>函数调用的实现总结：</li>
@@ -414,13 +413,11 @@
 </ul>
 </li>
 <li><p><code>malloc</code>：</p>
-<blockquote>
 <ul>
 <li>像<code>malloc()</code>能够动态地（运行时）进行内存分配，并且可以通过<code>free()</code>以任意的顺序释放的记忆区域，称为堆（heap）。</li>
 <li>malloc()的返回值的类型为<code>void*</code>。</li>
 <li>malloc()大体的实现是，从操作系统一次性地取得比较大的内存，然后将这些内存“零售”给应用程序，根据操作系统的不同，从操作系统取得内存的手段也是不一样的，比如在UNIX的情况下使用brk()*的系统调用（brk是break的简写），现实中为了内存的效率做了很多优化，考虑最简单的情况（想了解具体的还是得去看操作系统），使用链表管理内存-&gt;<img src="index_files/ed96abdd-6c6c-4cdb-ac52-7c0a0e46881a.jpg" alt="">，malloc()遍历链表寻找空的块，如果发现尺寸大小能够满足使用的块，就分割出来将其变成使用中的块，并且向应用程序返回紧邻管理区域的后面区域的地址，free()将管理区域的标记改写成“空块”，顺便也将上下空的块合并成一个块，这样可以防止块的碎片化，在这种内存管理方式的运行环境中，一旦数组越界检查发生错误，越过malloc()分配的内存区域写入了数据，将会破坏下一个块的管理区域，以后的malloc()和free()调用中出现程序崩溃的几率会非常高（因为管理区域数据错乱就找不到链表的下一个元素了）。</li>
 </ul>
-</blockquote>
 </li>
 <li><p>调用<code>free()</code>之后，对应的内存区域是不会立刻返还给操作系统的，而是随着某次malloc()调用，恰好将这片区域重新进行分配后，才会发生这部分内容的改写，这就带来一个问题，当某块区域同时被A、B引用时，A认为不需要了，free掉，但是B依然可以访问到，容易出现bug（这就是所谓的不安全，java有虚拟机帮我们管理就不用考虑这些了），解决方法是封装<code>free()</code>，在区域被释放之前故意将区域破坏（比如可以胡乱地填充一个像<code>0xCC</code>这样的值） ，另外因为无法知道当前指针指向的区域的大小（C没有提供公开内存大小的函数），可以对malloc()也进行封装，每次分配内存的时候多留出一点空间，然后在最前面的部分记录区域的大小信息。</p>
 </li>
@@ -429,18 +426,15 @@
 <li><p><code>hoge-&gt;piyo</code>是<code>(*hoge).piyo</code>的语法糖，利用<em>p的</em>，从指针p获得结构体的实体，然后引用成员hoge，所以又可以写成<code>hoge^.piyo</code>。</p>
 </li>
 <li><p>多维数组：</p>
-<blockquote>
 <ul>
 <li>C不存在多维数组，看上去像多维数组的数组，其实是“数组的数组”，比如对于<code>int hoge[3][2];</code>，可以通过hoge[i][j]的方式去访问，此时hoge[i]是指“int的数组（元素个数2）的数组（元素个数3） ”中的第i个元素，其类型为“int 数组（元素个数2）”， 因为是在表达式中，所以在此时此刻，hoge[i]也可以被解读成“指向int的指针。</li>
 <li>如果试图将<code>int的数组</code>作为参数传递给函数，可以直接传递<code>指向int的指针</code>，因为在表达式中，数组可以解释成指针，对于<code>int的数组（元素个数2）的数组（元素个数3）</code>，对于<code>数组（元素个数3）</code>部分，在表达式中可以解释成指针，所以可以向函数传递<code>指向int的数组（元素个数2）的指针</code>，即可以用比如<code>void func(int (*hoge)[2]);</code>来接收，这个是<code>void func(int hoge[3][2]);</code>和<code>void func(int hoge[][2]);</code>的语法糖。</li>
 <li>java和C一样不存在多维数组，也是使用数组的数组来实现多维数组，但是，Java和C不同的是，Java的数组都是指针，所以所谓的“数组的数组”其实是“指向数组的指针的数组”，比如java代码<code>double[][] polyline = new int[nPoints][2];</code>，对应的内存中的分配-&gt;<img src="index_files/a5f09fe7-4551-45e1-af47-e343d68f5930.jpg" alt=""></li>
 </ul>
-</blockquote>
 </li>
 <li><p>对指向函数类型的指针不能做指针运算， 因为无法得到当前指针类型的大小。</p>
 </li>
 <li><p>结构体和共用体：</p>
-<blockquote>
 <ul>
 <li>在语法上，结构体和共用体是作为派生类型使用的，但是在声明中和数据类型修饰符（也就是int、double等）处于相同的位置。</li>
 <li>只有派生指针、数组和函数的时候，类型才可以通过一维链表表示，结构体、共用体派生类型只能用树结构进行表现。</li>
@@ -451,12 +445,11 @@
 </ul>
 </li>
 <li><ul>
-<li>2.若是该最长的存储空间对其他成员的元类型(如果是数组,取其类型的数据长度,例<code>int a[5]</code>为4)不满足整除关系,该最大空间自动延伸，如下代码<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">  <span class="keyword">union</span> sample</span><br><span class="line">&#123;</span><br><span class="line"> <span class="keyword">short</span> <span class="keyword">int</span> n;<span class="comment">//长度2</span></span><br><span class="line"> <span class="keyword">char</span> c[<span class="number">10</span>];<span class="comment">//长度10</span></span><br><span class="line"> <span class="keyword">float</span> f;<span class="comment">//长度4</span></span><br><span class="line">&#125;s;</span><br></pre></td></tr></table></figure>
+<li>2.若是该最长的存储空间对其他成员的元类型(如果是数组,取其类型的数据长度,例<code>int a[5]</code>为4)不满足整除关系,该最大空间自动延伸，如下代码<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">union</span> sample</span><br><span class="line">&#123;</span><br><span class="line"> <span class="keyword">short</span> <span class="keyword">int</span> n;<span class="comment">//长度2</span></span><br><span class="line"> <span class="keyword">char</span> c[<span class="number">10</span>];<span class="comment">//长度10</span></span><br><span class="line"> <span class="keyword">float</span> f;<span class="comment">//长度4</span></span><br><span class="line">&#125;s;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 </li>
 </ul>
-</blockquote>
 <p>本来sample的空间应该是sizeof(char)*10=10，但是如果只是10个单元的话，那可以存几个float型(4位)呢?两个半?当然不可以,所以sample的空间延伸为既要大于10,又要满足其他成员所需空间的整数倍,即12，所以union的存储空间先看它的成员中哪个占的空间最大,拿他与其他成员的元长度比较,如果可以整除,ok,否则,找第一个能被整除的数。</p>
 <ul>
 <li>结构体相当于java中的类，因此在C中定义链表的代码<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> Word_tag &#123;</span><br><span class="line">      <span class="keyword">char</span> *name;</span><br><span class="line">      <span class="keyword">int</span> count;</span><br><span class="line">      <span class="keyword">struct</span> Word_tag _next;</span><br><span class="line">&#125;Word;</span><br></pre></td></tr></table></figure>
@@ -465,7 +458,7 @@
 <p>跟java中类似。</p>
 </li>
 <li><p>使用const修饰符（变量名），只意味着使其“只读”，只读的体现：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//这种情况跟java的final一样</span></span><br><span class="line"><span class="function"><span class="keyword">char</span> *<span class="title">my_strcpy</span><span class="params">(<span class="keyword">char</span> dest, <span class="keyword">const</span> <span class="keyword">char</span> src)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">        src = <span class="literal">NULL</span>; <span class="comment">//编译器没有报错，可以修改src的值</span></span><br><span class="line">        *src = <span class="string">'a'</span> ; <span class="comment">//错误！成为只读的不是src，而是src所指向的对象</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//如果需要将src自身定义为只读，可以写成下面这样：</span></span><br><span class="line"><span class="function"><span class="keyword">char</span> *<span class="title">my_strcpy</span><span class="params">(<span class="keyword">char</span> dest, <span class="keyword">char</span> <span class="keyword">const</span> src)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">        src = <span class="literal">NULL</span>; <span class="comment">//错误！src为只读，不可更改</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//如果将src和src指向的对象都定义为只读，可以写成下面这样：</span></span><br><span class="line"><span class="function"><span class="keyword">char</span> *<span class="title">my_strcpy</span><span class="params">(<span class="keyword">char</span> dest, <span class="keyword">const</span> <span class="keyword">char</span> <span class="keyword">const</span> src)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">        src = <span class="literal">NULL</span>;<span class="comment">//错误！</span></span><br><span class="line">        *src = <span class="string">'a'</span>;<span class="comment">//错误！</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//这种情况跟java的final一样</span></span><br><span class="line"><span class="function"><span class="keyword">char</span> *<span class="title">my_strcpy</span><span class="params">(<span class="keyword">char</span> dest, <span class="keyword">const</span> <span class="keyword">char</span> src)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">       src = <span class="literal">NULL</span>; <span class="comment">//编译器没有报错，可以修改src的值</span></span><br><span class="line">       *src = <span class="string">'a'</span> ; <span class="comment">//错误！成为只读的不是src，而是src所指向的对象</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//如果需要将src自身定义为只读，可以写成下面这样：</span></span><br><span class="line"><span class="function"><span class="keyword">char</span> *<span class="title">my_strcpy</span><span class="params">(<span class="keyword">char</span> dest, <span class="keyword">char</span> <span class="keyword">const</span> src)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">       src = <span class="literal">NULL</span>; <span class="comment">//错误！src为只读，不可更改</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//如果将src和src指向的对象都定义为只读，可以写成下面这样：</span></span><br><span class="line"><span class="function"><span class="keyword">char</span> *<span class="title">my_strcpy</span><span class="params">(<span class="keyword">char</span> dest, <span class="keyword">const</span> <span class="keyword">char</span> <span class="keyword">const</span> src)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">       src = <span class="literal">NULL</span>;<span class="comment">//错误！</span></span><br><span class="line">       *src = <span class="string">'a'</span>;<span class="comment">//错误！</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>typedef 用于给某类型定义别名，比如<code>typedef char *String;</code>，通过以上的声明，以后对于“指向char的指针”可以使用<code>String</code>这个别名。</p>
 </li>
@@ -474,38 +467,34 @@
 <p>其余的元素被初始化为0。</p>
 </li>
 <li><p>字符串常量</p>
-<blockquote>
 <ul>
 <li>使用””包围起来的字符串被称为字符串常量，字符串常量的类型是“char的数组”。</li>
-<li>在表达式中，它可以解读为指针：<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> *str;</span><br><span class="line">str = <span class="string">"abc"</span>;<span class="comment">//可以将指向"abc"的初始元素的指针赋给str</span></span><br></pre></td></tr></table></figure>
+<li><p>在表达式中，它可以解读为指针：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> *str;</span><br><span class="line">str = <span class="string">"abc"</span>;<span class="comment">//可以将指向"abc"的初始元素的指针赋给str</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>char数组的初始化是个例外，此时的字符串常量，作为在花括号中分开书写的初始化表达式的省略形式，编译器会进行特殊处理，即<br><code>char str[] = &quot;abc&quot;;</code>   和<br><code>char str[] = {&#39;a&#39;,&#39;b&#39;,&#39;c&#39;,&#39;\0&#39;};</code>具有相同的含义，也可以这样定义：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> *str = <span class="string">"abc"</span>;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-</blockquote>
-<ul>
-<li>char数组的初始化是个例外，此时的字符串常量，作为在花括号中分开书写的初始化表达式的省略形式，编译器会进行特殊处理，即<br><code>char str[] = &quot;abc&quot;;</code>   和<br><code>char str[] = {&#39;a&#39;,&#39;b&#39;,&#39;c&#39;,&#39;\0&#39;};</code>具有相同的含义，也可以这样定义：<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> *str = <span class="string">"abc"</span>;</span><br></pre></td></tr></table></figure>
+<p>这样定义不是初始化char的数组，而是初始化指针，此时的“abc”就是普通的“char的数组”，在表达式中被解释成“指向char的指针”，然后被赋给str；但是依然不能修改”abc”这个字符串常量：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">str[<span class="number">0</span>] = <span class="string">'d'</span>; <span class="comment">//在大部分的处理环境中会报错！</span></span><br></pre></td></tr></table></figure>
+<p>注意如下的写法是非法的，因为编译器不会进行特殊处理：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> str[<span class="number">4</span>];</span><br><span class="line">str = <span class="string">"abc"</span>;</span><br></pre></td></tr></table></figure>
 </li>
-</ul>
-</li>
-</ol>
-<p>这样定义不是初始化char的数组，而是初始化指针，此时的“abc”就是普通的“char的数组”，在表达式中被解释成“指向char的指针”，然后被赋给str；但是依然不能修改”abc”这个字符串常量：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">str[<span class="number">0</span>] = <span class="string">'d'</span>; <span class="comment">//在大部分的处理环境中会报错！</span></span><br></pre></td></tr></table></figure></p>
-<p>注意如下的写法是非法的，因为编译器不会进行特殊处理：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> str[<span class="number">4</span>];</span><br><span class="line">str = <span class="string">"abc"</span>;</span><br></pre></td></tr></table></figure></p>
-<ol>
 <li><p>C 声明读法（比如标准库中有一个 signal()函数，它的原型声明是<code>void (*signal(int sig, void (*func) (int) ) ) (int) ;</code>）：</p>
-<blockquote>
-<ul>
-<li>1. 首先着眼于标识符。<br>void ( <strong>*signal</strong>( int sig, void ( *func) ( int) ) ) ( int) ;<br>英语的表达为 ：<br>signal is</li>
-<li>2. 相比<strong>*</strong>， <strong>()</strong>的优先顺序更高 ，所以先解释这部 分。<br>void ( <strong><em>signal(int sig, void (</em>func) (int) )</strong> ) ( int) ;<br>英语的表达为 ：<br>signal is function() returning</li>
-<li>3. 解释参数部分。这里有两个参数，第一参数是<strong>int sig</strong>。<br>void ( <em>signal( <strong>int sig</strong>, void ( </em>func) ( int) ) ) ( int) ;<br>英语的表达为 ：<br>signal is function(sig is int,) returning</li>
-<li>4. 着眼另外一个参数。<br>void ( <em>signal( int sig, void ( **</em>func**) ( int) ) ) ( int) ;<br>英语的表达为 ：<br>signal is function(sig is int, func is) returning</li>
-<li>5. 因为有括号，所以这里解释 <strong>*</strong>。<br>void ( <em>signal( int sig, void **(</em>func)** ( int) ) ) ( int) ;<br>英语的表达为 ：<br>signal is function(sig is int, func is pointer to) returning</li>
-<li>6. 解释表示函数的<strong>()</strong>，参数为<strong>int</strong>。<br>void ( <em>signal( int sig, void **(</em>func) (int) )** ) ( int) ;<br>英语的表达为 ：<br>signal is function(sig is int, func is pointer to function(int) returning) returning</li>
-<li>7. 解释数据类型修饰符 <strong>void</strong>。<br>void ( <em>signal( int sig, **void (</em>func) (int) )** ) ( int) ;<br>英语的表达为 ：<br>signal is function(sig is int, func is pointer to function(int) returning void)<br>returning</li>
-<li>8. 参数部分已经解释结束。接着因为有括号，所以这里解释 <strong>*</strong>。<br>void <strong>(<em>signal(int sig, void (</em>func) (int) ) )</strong> ( int) ;<br>英语的表达为 ：<br>signal is function(sig is int, func is pointer to function(int) returning void)<br>returning pointer to</li>
-<li>9. 解释表示函数的<strong>()</strong>，参数为<strong>int</strong>。<br>void <strong>(<em>signal(int sig, void (</em>func) (int) ) ) (int)</strong> ;<br>英语的表达为 ：<br>signal is function(sig is int, func is pointer to function(int) returning void)<br>returning pointer to function(int) returning</li>
-<li>10. 最后，添上<strong>void</strong>。<br><strong>void (<em>signal(int sig, void (</em>func) (int) ) ) (int)</strong> ;<br>英语的表达为 ：<br>signal is function(sig is int, func is pointer to function(int) returning void)<br>returning pointer to function(int) returning void</li>
-<li>11. 翻译成中文<strong>……</strong><br><strong>signal</strong>是返回<strong>“</strong>指向返回<strong>void</strong>参数为<strong>int</strong>的函数的 指针 <strong>”</strong>的函数，它有两个参数，一个是<strong>int</strong>，另一个是<strong>“</strong>指向返回 <strong>void</strong> 参数为 <strong>int</strong> 的函数的指针 <strong>”</strong></li>
-</ul>
-</blockquote>
+<ol>
+<li>首先着眼于标识符。<br>void ( <strong>*signal</strong>( int sig, void ( *func) ( int) ) ) ( int) ;<br>英语的表达为 ：<br>signal is</li>
+<li>相比<strong>*</strong>， <strong>()</strong>的优先顺序更高 ，所以先解释这部 分。<br>void ( <strong><em>signal(int sig, void (</em>func) (int) )</strong> ) ( int) ;<br>英语的表达为 ：<br>signal is function() returning</li>
+<li>解释参数部分。这里有两个参数，第一参数是<strong>int sig</strong>。<br>void ( <em>signal( <strong>int sig</strong>, void ( </em>func) ( int) ) ) ( int) ;<br>英语的表达为 ：<br>signal is function(sig is int,) returning</li>
+<li>着眼另外一个参数。<br>void ( <em>signal( int sig, void ( **</em>func**) ( int) ) ) ( int) ;<br>英语的表达为 ：<br>signal is function(sig is int, func is) returning</li>
+<li>因为有括号，所以这里解释 <strong>*</strong>。<br>void ( <em>signal( int sig, void **(</em>func)** ( int) ) ) ( int) ;<br>英语的表达为 ：<br>signal is function(sig is int, func is pointer to) returning</li>
+<li>解释表示函数的<strong>()</strong>，参数为<strong>int</strong>。<br>void ( <em>signal( int sig, void **(</em>func) (int) )** ) ( int) ;<br>英语的表达为 ：<br>signal is function(sig is int, func is pointer to function(int) returning) returning</li>
+<li>解释数据类型修饰符 <strong>void</strong>。<br>void ( <em>signal( int sig, **void (</em>func) (int) )** ) ( int) ;<br>英语的表达为 ：<br>signal is function(sig is int, func is pointer to function(int) returning void)<br>returning</li>
+<li>参数部分已经解释结束。接着因为有括号，所以这里解释 <strong>*</strong>。<br>void <strong>(<em>signal(int sig, void (</em>func) (int) ) )</strong> ( int) ;<br>英语的表达为 ：<br>signal is function(sig is int, func is pointer to function(int) returning void)<br>returning pointer to</li>
+<li>解释表示函数的<strong>()</strong>，参数为<strong>int</strong>。<br>void <strong>(<em>signal(int sig, void (</em>func) (int) ) ) (int)</strong> ;<br>英语的表达为 ：<br>signal is function(sig is int, func is pointer to function(int) returning void)<br>returning pointer to function(int) returning</li>
+<li>最后，添上<strong>void</strong>。<br><strong>void (<em>signal(int sig, void (</em>func) (int) ) ) (int)</strong> ;<br>英语的表达为 ：<br>signal is function(sig is int, func is pointer to function(int) returning void)<br>returning pointer to function(int) returning void</li>
+<li>翻译成中文<strong>……</strong><br><strong>signal</strong>是返回<strong>“</strong>指向返回<strong>void</strong>参数为<strong>int</strong>的函数的 指针 <strong>”</strong>的函数，它有两个参数，一个是<strong>int</strong>，另一个是<strong>“</strong>指向返回 <strong>void</strong> 参数为 <strong>int</strong> 的函数的指针 <strong>”</strong></li>
+</ol>
 </li>
 <li><p>C可以改变数组长度，通过使用malloc()在运行时再为数组申请必要的内存区域，实现变长数组，而java无法实现，只能通过虚拟机拷贝然后new一个新的出来，旧的被垃圾回收。</p>
 </li>
@@ -514,19 +503,27 @@
 <li><p>回调函数是一个程序员不能显式调用的函数，通过将回调函数的地址传给调用者从而实现调用。</p>
 </li>
 <li><p>c/c++的引用，它跟java的引用完全不是一个东西，c/c++的引用是同一块内存的不同名字，而java的引用是指向一个对象，引用本身也占用了内存，列举一下c/c++能对指针进行的一些常见操作：</p>
-<blockquote>
-<p>1、指向一个对象,如<code>Person *p = new Person….；int *iv = new int…</code>。<br>2、对指针所指的对象进行操作：<code>P-&gt;getAge();</code>           <code>(*p).getAge();</code>。<br>3、获取存储在指针中的地址值。<br>4、将指针指向另外一个对象：<code>Person *p1 = new Person…; p = p1;</code>，但不可以*p = p1这样来赋值。<br>5、删除new的空间，<code>delete p1;</code>。<br>6、其它诸多操作。</p>
-</blockquote>
+<ol>
+<li>指向一个对象,如<code>Person *p = new Person….；int *iv = new int…</code>。</li>
+<li>对指针所指的对象进行操作：<code>P-&gt;getAge();</code>           <code>(*p).getAge();</code>。</li>
+<li>获取存储在指针中的地址值。</li>
+<li>将指针指向另外一个对象：<code>Person *p1 = new Person…; p = p1;</code>，但不可以*p = p1这样来赋值。</li>
+<li>删除new的空间，<code>delete p1;</code>。</li>
+<li>其它诸多操作。</li>
+</ol>
 <p>这么多已经足够了，接下来看看java引用能做什么操作：</p>
-<blockquote>
-<p>a、指向一个对象，如<code>Person p = new Person…</code>。<br>b、调用对象的方法，<code>p.getAge();</code>。<br>c、指向另外一个对象，<code>Person p1 = new Person…; p = p1;</code>。</p>
-</blockquote>
-<p>对于a和1，他们的功能是类似的，但java引用无法指向一个基本变量；对于b，java引用和指针就不同了，在这点上，java reference更像是解引用（dereference）了的指针，或者说java中的<code>.</code>操作符某种程度上等价于指针的-&gt;操作符，如果是这样种解释的话，我们无法再对java的reference解引用了；对于c和4，是类似的。</p>
+<ol>
+<li>指向一个对象，如<code>Person p = new Person…</code>。</li>
+<li>调用对象的方法，<code>p.getAge();</code>。</li>
+<li>指向另外一个对象，<code>Person p1 = new Person…; p = p1;</code>。</li>
+</ol>
+<p>对于i，他们的功能是类似的，但java引用无法指向一个基本变量；对于ii，java引用和指针就不同了，在这点上，java reference更像是解引用（dereference）了的指针，或者说java中的<code>.</code>操作符某种程度上等价于指针的-&gt;操作符，如果是这样种解释的话，我们无法再对java的reference解引用了；对于上面的iv和下面的ii，是类似的。</p>
 </li>
 <li><p>i++和++i的区别（同样适用于java）：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//++i</span></span><br><span class="line"><span class="keyword">int</span> <span class="keyword">operator</span> ++ (<span class="keyword">int</span> &amp;i)&#123;</span><br><span class="line"> i = i + <span class="number">1</span>;</span><br><span class="line"> <span class="keyword">return</span> i;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//i++</span></span><br><span class="line"><span class="keyword">int</span> <span class="keyword">operator</span> ++ (<span class="keyword">int</span> &amp;i)&#123;</span><br><span class="line"> <span class="keyword">int</span> j = i;</span><br><span class="line"> i = i + <span class="number">1</span>;</span><br><span class="line"> <span class="keyword">return</span> j;<span class="comment">//因为返回的j依然是i的旧值，所以跟返回值有关的会有延迟，但是如果跟i有关的会立即拿到新值</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//++i</span></span><br><span class="line"><span class="keyword">int</span> <span class="keyword">operator</span> ++ (<span class="keyword">int</span> &amp;i)&#123;</span><br><span class="line">  i = i + <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">return</span> i;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//i++</span></span><br><span class="line"><span class="keyword">int</span> <span class="keyword">operator</span> ++ (<span class="keyword">int</span> &amp;i)&#123;</span><br><span class="line">  <span class="keyword">int</span> j = i;</span><br><span class="line">  i = i + <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">return</span> j;<span class="comment">//因为返回的j依然是i的旧值，所以跟返回值有关的会有延迟，但是如果跟i有关的会立即拿到新值</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
             
           </span>
         
@@ -727,30 +724,6 @@
 
   
   
-  <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-        processEscapes: true,
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-      }
-    });
-  </script>
-
-  <script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-      var all = MathJax.Hub.getAllJax(), i;
-      for (i=0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
-      }
-    });
-  </script>
-
-  
-    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/MathJax.js"></script>
-    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/config/TeX-AMS-MML_HTMLorMML.js"></script>
-  
-
 
   
   
